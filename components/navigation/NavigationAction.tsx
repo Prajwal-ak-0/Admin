@@ -4,9 +4,10 @@ import { Plus } from "lucide-react";
 
 import { ActionTooltip } from "@/components/ActionTooltip";
 import { useModal } from "@/hooks/useModalStore";
+import { CreateServerModal } from "../modals/CreateServerModal";
 
 export const NavigationAction = () => {
-  const { onOpen } = useModal();
+  const { onOpen} = useModal();
 
   return (
     <div>
@@ -23,6 +24,11 @@ export const NavigationAction = () => {
             <Plus
               className="group-hover:text-white transition text-emerald-500"
               size={25}
+              onClick={() => (
+                <>
+                  <CreateServerModal/>
+                </>
+              )}
             />
           </div>
         </button>
