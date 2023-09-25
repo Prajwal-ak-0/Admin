@@ -5,7 +5,7 @@ const ServerIdPage = () => {
 
   return (
     <>
-    hy
+    sdfjn aefj liaisjf 
     </>
   )
 }
