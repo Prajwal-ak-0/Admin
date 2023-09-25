@@ -1,6 +1,6 @@
+import { InitialModal } from "@/components/modals/InitialModal";
 import { initialProfile } from "@/lib/InitialProfile"
 import {db} from "@/lib/db";
-import { UserButton } from "@clerk/nextjs";
 import {redirect} from "next/navigation"
 
 const SetUpPage =async () => {
@@ -23,7 +23,7 @@ const SetUpPage =async () => {
 
   return (
     <>
-    <div>Create a Server</div>
+    <InitialModal/>
     </>
   )
 }
