@@ -57,6 +57,12 @@ model Member{
   serverId     String @db.ObjectId
   server       Server  @relation(fields: [serverId], references: [id],onDelete: Cascade)
 
+  messages     Message[]
+  directMessages DirectMessage[]
+
+  conversationsInitiated Coversation[] @relation("MemberOne")
+  conversationsReceived Coversation[] @relation("MemberTwo")
+
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 }
@@ -78,7 +84,55 @@ model Channel {
   serverId     String @db.ObjectId
   server       Server  @relation(fields: [serverId], references: [id],onDelete: Cascade)
 
+  messages     Message[]
+
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 }
 
+model Message {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  content      String 
+
+  fileUrl      String
+  member       Member @relation(fields: [memberId], references: [id],onDelete: Cascade)
+  memberId     String @db.ObjectId
+
+  channel      Channel @relation(fields: [channelId], references: [id],onDelete: Cascade)
+  channelId    String @db.ObjectId
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Coversation {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+   
+  memberOneId  String @db.ObjectId
+  memberOne    Member @relation("MemberOne", fields: [memberOneId], references: [id], onDelete: Cascade)
+
+  memberTwoId  String @db.ObjectId
+  memberTwo    Member @relation("MemberTwo", fields: [memberTwoId], references: [id], onDelete: Cascade)
+
+  directMessages DirectMessage[]
+
+   @@unique([memberOneId,memberTwoId])
+}
+
+model DirectMessage {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  content      String 
+  fileUrl      String
+
+
+  member       Member @relation(fields: [memberId], references: [id],onDelete: Cascade)
+  memberId     String @db.ObjectId
+
+  conversation Coversation @relation(fields: [conversationId], references: [id],onDelete: Cascade)
+  conversationId    String @db.ObjectId
+
+  deleted      Boolean @default(false)
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
